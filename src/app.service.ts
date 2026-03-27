@@ -5,7 +5,7 @@ import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {}
   async getHello(): Promise<string> {
     const ping = await this.prismaService.$queryRaw`SELECT 1`;
 

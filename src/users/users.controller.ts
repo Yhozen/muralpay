@@ -4,9 +4,11 @@ import { CreateUserDto, CreateUserResponse } from './users.dto';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) { }
-    @Post()
-    async createUser(@Body() createUserDto: CreateUserDto): Promise<CreateUserResponse> {
-        return this.usersService.createUser(createUserDto);
-    }
+  constructor(private readonly usersService: UsersService) {}
+  @Post()
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<CreateUserResponse> {
+    return this.usersService.createUser(createUserDto);
+  }
 }

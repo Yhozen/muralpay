@@ -4,10 +4,10 @@ import { Merchant } from 'src/generated/prisma/client';
 
 @Controller('merchants')
 export class MerchantsController {
-    constructor(private readonly merchantsService: MerchantsService) { }
+  constructor(private readonly merchantsService: MerchantsService) {}
 
-    @Get()
-    async getMerchants(): Promise<Merchant[]> {
-        return this.merchantsService.getMerchants();
-    }
+  @Get()
+  async getMerchants(): Promise<Merchant[]> {
+    return this.merchantsService.getMerchants();
+  }
 }

@@ -72,7 +72,7 @@ model CheckoutSession {
   createdAt            DateTime              @default(now()) @map("created_at")
   updatedAt            DateTime              @updatedAt @map("updated_at")
   checkoutSessionItems CheckoutSessionItem[]
-  status               CheckoutSessionStatus
+  status               CheckoutSessionStatus @default(PENDING)
   payments             Payment[]
 
   @@map("checkout_session")
@@ -103,7 +103,7 @@ model Payment {
   checkoutSession   CheckoutSession @relation(fields: [checkoutSessionId], references: [id])
   createdAt         DateTime        @default(now()) @map("created_at")
   updatedAt         DateTime        @updatedAt @map("updated_at")
-  status            PaymentStatus
+  status            PaymentStatus   @default(PENDING)
 
   @@map("payment")
 }
