@@ -6,12 +6,13 @@ import { loadConfiguration } from "./config/configuration";
 import { PrismaService } from "./prisma.service";
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			load: [loadConfiguration],
-		}),
-	],
-	controllers: [AppController],
-	providers: [AppService, PrismaService],
+  imports: [
+    ConfigModule.forRoot({
+      load: [loadConfiguration],
+      isGlobal: true,
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService, PrismaService],
 })
-export class AppModule {}
+export class AppModule { }
