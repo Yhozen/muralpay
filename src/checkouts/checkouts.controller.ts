@@ -6,6 +6,7 @@ import {
 } from 'src/generated/prisma/browser';
 import { User, type UserEntity } from 'src/users/users.decorators';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { AddProductToCheckoutSessionDto } from './checkouts.dto';
 
 @Controller('checkouts')
 @UseGuards(AuthGuard)
@@ -19,8 +20,7 @@ export class CheckoutsController {
   }
   @Post('add-product')
   async addProductToCheckoutSession(
-    @Body()
-    body: { checkoutSessionId: string; productId: string; quantity: number },
+    @Body() body: AddProductToCheckoutSessionDto,
     @User() user: UserEntity,
   ): Promise<CheckoutSessionItem> {
     return this.checkoutsService.addProductToCheckoutSession({
