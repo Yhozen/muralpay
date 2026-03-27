@@ -12,3 +12,5 @@ The deploy working is in https://muralpay.vercel.app/
 Now, I'm going to add a database directly on vercel (neon integration) and setup prisma using https://docs.nestjs.com/recipes/prisma#set-up-prisma
 
 Using vercel env pull, I got my env variables locally 
+--- 
+I was able to setup prisma on prod under 20 min, now I'm going to reserve another 20 mins for researching and understanding the problem
