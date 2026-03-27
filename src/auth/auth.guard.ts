@@ -5,14 +5,15 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import crypto from "node:crypto";
-import { ConfigurationSchema } from 'src/config/configuration';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private readonly configService: ConfigService<ConfigurationSchema, true>) { }
+    constructor(
+        private readonly prismaService: PrismaService
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -21,12 +22,17 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException();
         }
         try {
-            const HARDCODED_API_KEY = this.configService.get("HARDCODED_API_KEY", { infer: true })
-            const valid = this.safeEqual(HARDCODED_API_KEY, token)
-            if (!valid) {
+            const apiKey = await this.prismaService.apiKey.findUnique({
+                where: {
+                    id: token
+                },
+                include: { user: true }
+            })
+            if (!apiKey) {
                 throw new UnauthorizedException();
             }
 
+            request['user'] = apiKey.user;
         } catch {
             throw new UnauthorizedException();
         }
