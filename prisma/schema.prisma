@@ -14,11 +14,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid(7))
-  email     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  apiKeys   ApiKey[]
+  id               String            @id @default(uuid(7))
+  email            String            @unique
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  apiKeys          ApiKey[]
+  checkoutSessions CheckoutSession[]
 
   @@map("user")
 }
@@ -32,4 +33,77 @@ model ApiKey {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("api_key")
+}
+
+model Merchant {
+  id        String    @id @default(uuid(7))
+  name      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  products  Product[]
+
+  @@map("merchant")
+}
+
+model Product {
+  id                   String                @id @default(uuid(7))
+  merchantId           String                @map("merchant_id")
+  merchant             Merchant              @relation(fields: [merchantId], references: [id])
+  name                 String
+  price                Int
+  stock                Int
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  checkoutSessionItems CheckoutSessionItem[]
+
+  @@map("product")
+}
+
+enum CheckoutSessionStatus {
+  PENDING
+  COMPLETED
+  ABANDONED
+}
+
+model CheckoutSession {
+  id                   String                @id @default(uuid(7))
+  userId               String                @map("user_id")
+  user                 User                  @relation(fields: [userId], references: [id])
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  checkoutSessionItems CheckoutSessionItem[]
+  status               CheckoutSessionStatus
+  payments             Payment[]
+
+  @@map("checkout_session")
+}
+
+model CheckoutSessionItem {
+  id                String          @id @default(uuid(7))
+  checkoutSessionId String          @map("checkout_session_id")
+  checkoutSession   CheckoutSession @relation(fields: [checkoutSessionId], references: [id])
+  productId         String          @map("product_id")
+  product           Product         @relation(fields: [productId], references: [id])
+  quantity          Int
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@map("checkout_session_item")
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model Payment {
+  id                String          @id @default(uuid(7))
+  checkoutSessionId String          @map("checkout_session_id")
+  checkoutSession   CheckoutSession @relation(fields: [checkoutSessionId], references: [id])
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  status            PaymentStatus
+
+  @@map("payment")
 }
