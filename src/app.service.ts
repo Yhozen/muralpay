@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigurationSchema } from './config/configuration';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly configService: ConfigService<ConfigurationSchema, true>) {}
-  getHello(): string {
-    const port = this.configService.get('PORT', { infer: true });
-    return `Hello World! on port ${port}`;
+  constructor( private readonly prismaService: PrismaService) {}
+  async getHello(): Promise<string> {
+    const ping = await this.prismaService.$queryRaw`SELECT 1`;
+    
+    return `Hello World! ping: ${ping}`;
   }
 }
