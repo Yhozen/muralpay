@@ -10,7 +10,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate",
     "db:studio": "prisma studio",
-    "postinstall": "pnpm run db:generate && pnpm run openapi-ts",
+    "postinstall": "pnpm run db:generate",
     "openapi-ts": "openapi-ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
