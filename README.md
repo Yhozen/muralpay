@@ -22,3 +22,6 @@ I understand that we are creating an application, where a
 > I think it is ambiguous whether this is for just one merchant or for multiple merchants in a marketplace, I'm going to start with just one merchant to keep the scope small.
 
 I'm going to pause the timer here because I need access to staging. Current timer 35 min
+
+---
+I still can't access the sandbox env. I'm going to create the rest of the app using agnostic "payin/payout service" (mocking the mural pay API)
