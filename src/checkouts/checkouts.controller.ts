@@ -10,9 +10,9 @@ import { CheckoutsService } from './checkouts.service';
 import {
   CheckoutSession,
   CheckoutSessionItem,
-} from 'src/generated/prisma/browser';
-import { User, type UserEntity } from 'src/users/users.decorators';
-import { AuthGuard } from 'src/auth/auth.guard';
+} from '../generated/prisma/browser';
+import { User, type UserEntity } from '../users/users.decorators';
+import { AuthGuard } from '../auth/auth.guard';
 import {
   AddProductToCheckoutSessionDto,
   CompleteCheckoutSessionDto,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ConfigurationSchema } from 'src/config/configuration';
+import { ConfigurationSchema } from '../config/configuration';
 import axios, { AxiosInstance } from 'axios';
 
 type Account = {

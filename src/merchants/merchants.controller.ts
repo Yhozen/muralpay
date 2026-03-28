@@ -1,6 +1,6 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
-import { Merchant } from 'src/generated/prisma/client';
+import { Merchant } from '../generated/prisma/client';
 
 @Controller('merchants')
 export class MerchantsController {

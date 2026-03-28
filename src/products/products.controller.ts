@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Product } from 'src/generated/prisma/client';
+import { Product } from '../generated/prisma/client';
 
 @Controller('merchants/:merchantId/products')
 export class ProductsController {

@@ -8,8 +8,8 @@ import {
   CheckoutSession,
   CheckoutSessionItem,
   CheckoutSessionStatus,
-} from 'src/generated/prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+} from '../generated/prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CheckoutsService {
