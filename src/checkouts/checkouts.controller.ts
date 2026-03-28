@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CheckoutsService } from './checkouts.service';
 import {
   CheckoutSession,
@@ -6,12 +13,28 @@ import {
 } from 'src/generated/prisma/browser';
 import { User, type UserEntity } from 'src/users/users.decorators';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { AddProductToCheckoutSessionDto } from './checkouts.dto';
+import {
+  AddProductToCheckoutSessionDto,
+  RemoveProductFromCheckoutSessionDto,
+  UpdateCheckoutSessionItemDto,
+} from './checkouts.dto';
 
 @Controller('checkouts')
 @UseGuards(AuthGuard)
 export class CheckoutsController {
   constructor(private readonly checkoutsService: CheckoutsService) {}
+  @Get('current')
+  async getCurrentCheckoutSession(
+    @User() user: UserEntity,
+  ): Promise<CheckoutSession> {
+    const checkoutSession =
+      await this.checkoutsService.getCurrentCheckoutSession(user.id);
+    if (!checkoutSession) {
+      throw new NotFoundException('Checkout session not found');
+    }
+    return checkoutSession;
+  }
+
   @Post('create')
   async createCheckoutSession(
     @User() user: UserEntity,
@@ -31,9 +54,22 @@ export class CheckoutsController {
     });
   }
 
+  @Post('update-item')
+  async updateProductInCheckoutSession(
+    @Body() body: UpdateCheckoutSessionItemDto,
+    @User() user: UserEntity,
+  ): Promise<CheckoutSessionItem> {
+    return this.checkoutsService.updateCheckoutSessionItem({
+      checkoutSessionId: body.checkoutSessionId,
+      productId: body.productId,
+      quantity: body.quantity,
+      userId: user.id,
+    });
+  }
+
   @Post('remove-product')
   async removeProductFromCheckoutSession(
-    @Body() body: AddProductToCheckoutSessionDto,
+    @Body() body: RemoveProductFromCheckoutSessionDto,
     @User() user: UserEntity,
   ): Promise<void> {
     return this.checkoutsService.removeProductFromCheckoutSession({

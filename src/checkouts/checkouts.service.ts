@@ -37,6 +37,20 @@ export class CheckoutsService {
     });
   }
 
+  async getCurrentCheckoutSession(
+    userId: string,
+  ): Promise<CheckoutSession | null> {
+    return await this.prismaService.checkoutSession.findFirst({
+      where: {
+        userId: userId,
+        status: CheckoutSessionStatus.PENDING,
+      },
+      include: {
+        checkoutSessionItems: true,
+      },
+    });
+  }
+
   async addProductToCheckoutSession({
     checkoutSessionId,
     productId,
