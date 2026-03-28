@@ -8,8 +8,8 @@ import { ProductsModule } from './products/products.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { MerchantsModule } from './merchants/merchants.module';
-import { CheckoutModule } from './checkout/checkout.module';
 import { CheckoutsModule } from './checkouts/checkouts.module';
+import { MuralpayModule } from './muralpay/muralpay.module';
 
 @Module({
   imports: [
@@ -22,8 +22,8 @@ import { CheckoutsModule } from './checkouts/checkouts.module';
     UsersModule,
     ProductsModule,
     MerchantsModule,
-    CheckoutModule,
     CheckoutsModule,
+    MuralpayModule,
   ],
   controllers: [AppController],
   providers: [AppService],
