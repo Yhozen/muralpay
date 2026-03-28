@@ -26,3 +26,8 @@ export class RemoveProductFromCheckoutSessionDto {
   @IsString()
   productId: string;
 }
+
+export class CompleteCheckoutSessionDto {
+  @IsString()
+  checkoutSessionId: string;
+}

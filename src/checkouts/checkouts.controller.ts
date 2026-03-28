@@ -15,6 +15,7 @@ import { User, type UserEntity } from 'src/users/users.decorators';
 import { AuthGuard } from 'src/auth/auth.guard';
 import {
   AddProductToCheckoutSessionDto,
+  CompleteCheckoutSessionDto,
   RemoveProductFromCheckoutSessionDto,
   UpdateCheckoutSessionItemDto,
 } from './checkouts.dto';
@@ -77,5 +78,16 @@ export class CheckoutsController {
       productId: body.productId,
       userId: user.id,
     });
+  }
+
+  @Post('complete')
+  async completeCheckoutSession(
+    @Body() body: CompleteCheckoutSessionDto,
+    @User() user: UserEntity,
+  ): Promise<number> {
+    return this.checkoutsService.completeCheckoutSession(
+      body.checkoutSessionId,
+      user.id,
+    );
   }
 }

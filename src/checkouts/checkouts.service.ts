@@ -51,6 +51,27 @@ export class CheckoutsService {
     });
   }
 
+  async completeCheckoutSession(
+    checkoutSessionId: string,
+    userId: string,
+  ): Promise<number> {
+    await this.validateCheckoutSession(checkoutSessionId, userId);
+    const checkoutSession = await this.prismaService.checkoutSession.update({
+      where: { id: checkoutSessionId },
+      data: { status: CheckoutSessionStatus.COMPLETED },
+      include: {
+        checkoutSessionItems: { include: { product: true } },
+      },
+    });
+
+    const totalAmount = checkoutSession.checkoutSessionItems.reduce(
+      (acc, item) => acc + item.quantity * item.product.price,
+      0,
+    );
+
+    return totalAmount;
+  }
+
   async addProductToCheckoutSession({
     checkoutSessionId,
     productId,
