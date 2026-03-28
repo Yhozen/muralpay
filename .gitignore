@@ -58,4 +58,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .env*.local
 
 src/generated/prisma
-src/generated/heyapi
+.api/
+package-lock.json

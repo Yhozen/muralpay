@@ -10,7 +10,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate",
     "db:studio": "prisma studio",
-    "postinstall": "pnpm run db:generate",
+    "postinstall": "bun run db:generate && bun run mural:sdk",
     "openapi-ts": "openapi-ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -23,9 +23,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "mural:sdk": "bunx api install \"@mural-production/v1.15#5rj3wbfmn6p5zic\" --yes --lang ts"
   },
   "dependencies": {
+    "@api/mural-production": "file:.api/apis/mural-production",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
