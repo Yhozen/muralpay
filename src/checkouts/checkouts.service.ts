@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import {
@@ -12,6 +13,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CheckoutsService {
+  logger = new Logger(CheckoutsService.name);
   constructor(private readonly prismaService: PrismaService) {}
 
   async createCheckoutSession(userId: string): Promise<CheckoutSession> {
@@ -46,6 +48,88 @@ export class CheckoutsService {
     quantity: number;
     userId: string;
   }): Promise<CheckoutSessionItem> {
+    await this.validateCheckoutSession(checkoutSessionId, userId);
+
+    return this.prismaService.checkoutSessionItem.create({
+      data: {
+        checkoutSessionId: checkoutSessionId,
+        productId: productId,
+        quantity: quantity,
+      },
+    });
+  }
+  async updateCheckoutSessionItem({
+    checkoutSessionId,
+    productId,
+    quantity,
+    userId,
+  }: {
+    checkoutSessionId: string;
+    productId: string;
+    quantity: number;
+    userId: string;
+  }): Promise<CheckoutSessionItem> {
+    await this.validateCheckoutSession(checkoutSessionId, userId);
+    const checkoutSessionItems =
+      await this.prismaService.checkoutSessionItem.findMany({
+        where: {
+          checkoutSessionId: checkoutSessionId,
+          productId: productId,
+        },
+      });
+    if (!checkoutSessionItems || checkoutSessionItems.length === 0) {
+      throw new NotFoundException('Checkout session item not found');
+    }
+    if (checkoutSessionItems.length > 1) {
+      this.logger.warn('Multiple checkout session items found');
+      await this.prismaService.checkoutSessionItem.deleteMany({
+        where: {
+          checkoutSessionId: checkoutSessionId,
+          productId: productId,
+        },
+      });
+      return this.prismaService.checkoutSessionItem.create({
+        data: {
+          checkoutSessionId: checkoutSessionId,
+          productId: productId,
+          quantity: quantity,
+        },
+      });
+    }
+    const checkoutSessionItem = checkoutSessionItems.at(0)!;
+
+    return this.prismaService.checkoutSessionItem.update({
+      where: {
+        id: checkoutSessionItem.id,
+      },
+      data: {
+        quantity: quantity,
+      },
+    });
+  }
+
+  async removeProductFromCheckoutSession({
+    checkoutSessionId,
+    productId,
+    userId,
+  }: {
+    checkoutSessionId: string;
+    productId: string;
+    userId: string;
+  }): Promise<void> {
+    await this.validateCheckoutSession(checkoutSessionId, userId);
+    this.prismaService.checkoutSessionItem.deleteMany({
+      where: {
+        checkoutSessionId: checkoutSessionId,
+        productId: productId,
+      },
+    });
+  }
+
+  private async validateCheckoutSession(
+    checkoutSessionId: string,
+    userId: string,
+  ): Promise<CheckoutSession> {
     const checkoutSession = await this.prismaService.checkoutSession.findUnique(
       {
         where: {
@@ -60,13 +144,6 @@ export class CheckoutsService {
     if (checkoutSession.status !== CheckoutSessionStatus.PENDING) {
       throw new BadRequestException('Checkout session is not pending');
     }
-
-    return this.prismaService.checkoutSessionItem.create({
-      data: {
-        checkoutSessionId: checkoutSessionId,
-        productId: productId,
-        quantity: quantity,
-      },
-    });
+    return checkoutSession;
   }
 }

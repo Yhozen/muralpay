@@ -9,4 +9,11 @@ export class MerchantsService {
   async getMerchants(): Promise<Merchant[]> {
     return this.prismaService.merchant.findMany();
   }
+  async getMerchant(id: string): Promise<Merchant | null> {
+    return this.prismaService.merchant.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
 }

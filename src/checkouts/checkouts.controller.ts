@@ -30,4 +30,16 @@ export class CheckoutsController {
       userId: user.id,
     });
   }
+
+  @Post('remove-product')
+  async removeProductFromCheckoutSession(
+    @Body() body: AddProductToCheckoutSessionDto,
+    @User() user: UserEntity,
+  ): Promise<void> {
+    return this.checkoutsService.removeProductFromCheckoutSession({
+      checkoutSessionId: body.checkoutSessionId,
+      productId: body.productId,
+      userId: user.id,
+    });
+  }
 }
