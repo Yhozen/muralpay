@@ -8,7 +8,7 @@ A multi-merchant marketplace backend (think Amazon) where customers can buy prod
 
 OpenAPI: [https://muralpay.vercel.app/api-json](https://muralpay.vercel.app/api-json)
 
-Swagger: [https://muralpay.vercel.app/api](https://muralpay.vercel.app/api-json)
+Swagger: [https://muralpay.vercel.app/api](https://muralpay.vercel.app/api)
 
 ---
 
