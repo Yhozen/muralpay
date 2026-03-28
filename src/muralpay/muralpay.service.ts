@@ -30,4 +30,23 @@ export class MuralpayService {
     const response = await this.axiosInstance.get<Account[]>('/accounts');
     return response.data;
   }
+  async createAccount(
+    blockchain: 'POLYGON' | 'ETHEREUM' = 'POLYGON',
+  ): Promise<Account> {
+    const response = await this.axiosInstance.post<Account>(
+      '/accounts',
+      {
+        destinationToken: { blockchain, symbol: 'USDC' },
+        name: 'Merchant Default Account',
+      },
+      {
+        headers: {
+          'transfer-api-key': this.configService.get('MURAL_TRANSFER_API_KEY', {
+            infer: true,
+          }),
+        },
+      },
+    );
+    return response.data;
+  }
 }
