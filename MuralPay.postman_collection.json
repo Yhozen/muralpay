@@ -1,0 +1,202 @@
+{
+  "info": {
+    "_postman_id": "48663c7d-31ab-46c0-af4c-8d0a7711e997",
+    "name": "MuralPay",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "5699407",
+    "_collection_link": "https://go.postman.co/collection/5699407-48663c7d-31ab-46c0-af4c-8d0a7711e997?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get merchant products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://muralpay.vercel.app/merchants/:merchant_id/products",
+          "protocol": "https",
+          "host": [
+            "muralpay",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            "merchants",
+            ":merchant_id",
+            "products"
+          ],
+          "variable": [
+            {
+              "key": "merchant_id",
+              "value": "019d3146-8b27-70ee-8a4d-8a5981de5229/"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create checkout session",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "019d312c-5157-7188-8f94-454114a68a7c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://muralpay.vercel.app/checkouts/create",
+          "protocol": "https",
+          "host": [
+            "muralpay",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            "checkouts",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add products",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "019d312c-5157-7188-8f94-454114a68a7c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"checkoutSessionId\": \"019d32cf-8fe5-728d-9f18-ecad1ccdb620\",\n    \"productId\": \"019d32c4-0cca-7588-9244-475cb96d2870\",\n    \"quantity\": 12\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://muralpay.vercel.app/checkouts/add-product",
+          "protocol": "https",
+          "host": [
+            "muralpay",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            "checkouts",
+            "add-product"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Complete checkout",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "019d312c-5157-7188-8f94-454114a68a7c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"checkoutSessionId\": \"019d32cf-8fe5-728d-9f18-ecad1ccdb620\",\n    \"productId\": \"019d32c4-0cca-7588-9244-475cb96d2870\",\n    \"quantity\": 12\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://muralpay.vercel.app/checkouts/add-product",
+          "protocol": "https",
+          "host": [
+            "muralpay",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            "checkouts",
+            "add-product"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get current session",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "019d312c-5157-7188-8f94-454114a68a7c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://muralpay.vercel.app/checkouts/current",
+          "protocol": "https",
+          "host": [
+            "muralpay",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            "checkouts",
+            "current"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
