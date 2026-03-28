@@ -30,6 +30,14 @@ export class MuralpayService {
     const response = await this.axiosInstance.get<Account[]>('/accounts');
     return response.data;
   }
+
+  async getAccount(accountId: string): Promise<Account> {
+    const response = await this.axiosInstance.get<Account>(
+      `/accounts/${accountId}`,
+    );
+    return response.data;
+  }
+
   async createAccount(
     blockchain: 'POLYGON' | 'ETHEREUM' = 'POLYGON',
   ): Promise<Account> {
@@ -47,6 +55,55 @@ export class MuralpayService {
         },
       },
     );
+    return response.data;
+  }
+
+  async getPayins(): Promise<void> {
+    const response = await this.axiosInstance.post(`/payins/search`);
+    return response.data;
+  }
+
+  async createPayout(amount: number): Promise<void> {
+    const data = {
+      sourceAccountId: '3e4d73f4-a233-4553-a399-15f870d4b68b',
+      payouts: [
+        {
+          amount: {
+            tokenAmount: amount,
+            tokenSymbol: 'USDC',
+          },
+          payoutDetails: {
+            type: 'fiat',
+            bankName: 'Banco Davivienda',
+            bankAccountOwner: 'Gabriel Pérez',
+            fiatAndRailDetails: {
+              type: 'cop',
+              symbol: 'COP',
+              bankAccountNumber: '198234567891',
+              bankRoutingNumber: '198234567891',
+              accountType: 'CHECKING',
+              documentType: 'NATIONAL_ID',
+              documentNumber: '1234567',
+              phoneNumber: '+19179999999',
+            },
+          },
+          recipientInfo: {
+            type: 'individual',
+            firstName: 'Gabriel',
+            lastName: 'Pérez',
+            email: 'gabriel@example.com',
+            physicalAddress: {
+              address1: 'Av siempre',
+              country: 'CO',
+              state: 'ANT',
+              city: 'Medellin',
+              zip: '123141',
+            },
+          },
+        },
+      ],
+    };
+    const response = await this.axiosInstance.post(`/payouts`, data);
     return response.data;
   }
 }
