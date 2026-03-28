@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { MerchantsModule } from './merchants/merchants.module';
 import { CheckoutsModule } from './checkouts/checkouts.module';
 import { MuralpayModule } from './muralpay/muralpay.module';
+import { MuralpayService } from './muralpay/muralpay.service';
 
 @Module({
   imports: [
