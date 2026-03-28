@@ -69,6 +69,14 @@ export class CheckoutsService {
       0,
     );
 
+    // creates pending payment for the checkout session
+    await this.prismaService.payment.create({
+      data: {
+        checkoutSessionId: checkoutSessionId,
+        amount: totalAmount,
+      },
+    });
+
     return totalAmount;
   }
 
